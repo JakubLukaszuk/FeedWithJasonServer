@@ -3,7 +3,9 @@ import MainLayout from './layouts/MainLayout/MainLayout';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import FeedPage from './pages/FeedPage/ArticelsPage';
 import NotFound from './pages/NotFound/NotFound';
-import * as routes from './constants/routes'
+import * as routes from './constants/routes';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
