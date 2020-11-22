@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {getArticlesInRangeAsync} from '../../data/providers/articleProvider';
 import {getErrorMessage} from '../../utils/error/error';
 import ArticleOverview from '../ArticleOverview/ArticleOverview';
-import Spinner from 'react-bootstrap/Spinner';
+import {Spinner, CardColumns, Card} from 'react-bootstrap';
 
 const Feed = () => {
     const amoutArticelsToFetch = 5;
@@ -13,7 +13,7 @@ const Feed = () => {
 
     useEffect(() => {
         let unmounted = false;
-        fetchArticelsInRangeWithErrorHandling(0, amoutArticelsToFetch, unmounted);
+        fetchArticelsInRangeWithErrorHandling(0, amoutArticelsToFetch*2, unmounted);
         window.addEventListener('scroll', handleScroll);
         return () => {window.removeEventListener('scroll', handleScroll); unmounted = true;}
       }, []);
@@ -46,9 +46,6 @@ const Feed = () => {
                     if(!error && articles)
                     {
                         const notSortedArticels = [...articlesList, ...articles];
-                        // const sortedArticels = notSortedArticels.sort(function(a,b){
-                        //     return new Date(b.date) - new Date(a.date);
-                        //   });
                         setArticlesList(notSortedArticels);
                         setLastItemFetchedIndex(lastItemFetchedIndex+1);
                         setIsFetching(false);
@@ -67,14 +64,16 @@ const Feed = () => {
       }
 
     return (
-        <div>
+        <CardColumns>
             {articlesList.map(function(article, index){
                 const {date, excerpt, thumb, title, url} = article;
                 return (<ArticleOverview key={index} date={date} excerpt={excerpt} thumb={thumb} title={title} url={url}/>)
             })}
-            {isFetching? <div><span><Spinner animation="border" variant="primary"/>Ładowanie...</span></div> : null}
+            {isFetching? <Card border="dark" style={{ width: '21rem', height: '34rem', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <span style={{display: 'flex', justifyContent: 'center'}}><Spinner animation="border" variant="primary"/> Ładowanie...</span>
+                </Card> : null}
             {error ? getErrorMessage(error): null}
-        </div>
+        </CardColumns>
     )
 }
 
