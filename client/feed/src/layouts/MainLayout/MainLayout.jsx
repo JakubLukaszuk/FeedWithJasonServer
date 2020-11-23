@@ -2,7 +2,7 @@ import React from 'react'
 function MainLayout(props) {
     return (
         <React.Fragment>
-              {props.children}
+            {props.children}
         </React.Fragment>
     )
 }
